@@ -770,3 +770,6 @@ WHERE ((`d`.`SupplierId` = @__supplier_SupplierId_0) AND `o`.`IsRequestedFromSup
 2026-10-09 10:46:40.107 +05:30 [INF] Application started. Press Ctrl+C to shut down.
 2026-10-09 10:46:40.109 +05:30 [INF] Hosting environment: Development
 2026-10-09 10:46:40.109 +05:30 [INF] Content root path: C:\Users\91735\Desktop\meditrack-PMS\PharmacyBackend
+2026-10-09 11:57:08.238 +05:30 [ERR] An error occurred using the connection to database '' on server 'mysql-2f962c7b-rahulkumarrajput330-d572.i.aivencloud.com'.
+2026-10-09 12:04:53.572 +05:30 [ERR] An error occurred using the connection to database '' on server 'mysql-2f962c7b-rahulkumarrajput330-d572.i.aivencloud.com'.
+2026-10-09 12:05:29.563 +05:30 [ERR] An error occurred using the connection to database '' on server 'mysql-2f962c7b-rahulkumarrajput330-d572.i.aivencloud.com'.
