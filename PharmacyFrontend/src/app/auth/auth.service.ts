@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:5118/api/auth';
+  private apiUrl = 'https://meditrack-pharmacy-management-system.onrender.com/api/auth';
 
   constructor(private http: HttpClient) { }
 

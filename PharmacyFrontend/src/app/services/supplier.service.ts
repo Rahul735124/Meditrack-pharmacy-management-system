@@ -8,7 +8,7 @@ import { map, Observable } from 'rxjs';
 })
 export class SupplierService {
 
-  private apiUrl = 'http://localhost:5118/api/supplier';
+  private apiUrl = 'https://meditrack-pharmacy-management-system.onrender.com/api/supplier';
 
   constructor(private http: HttpClient, private cookieService: CookieService) { }
 

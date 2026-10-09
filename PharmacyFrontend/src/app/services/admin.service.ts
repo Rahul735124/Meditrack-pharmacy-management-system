@@ -15,7 +15,7 @@ export interface ApiResponse<T> {
   providedIn: 'root'
 })
 export class AdminService {
-  private apiUrl = 'http://localhost:5118/api/admin';
+  private apiUrl = 'https://meditrack-pharmacy-management-system.onrender.com/api/admin';
 
   constructor(private http: HttpClient, private cookieService: CookieService) { }
 

@@ -11,7 +11,7 @@ import { DoctorOrderStatus } from '../models/doctor-order.model';
   providedIn: 'root'
 })
 export class DoctorService {
-  private apiUrl = 'http://localhost:5118/api/doctor';
+  private apiUrl = 'https://meditrack-pharmacy-management-system.onrender.com/api/doctor';
 
 
   constructor(private http: HttpClient, private cookieService: CookieService) { }
