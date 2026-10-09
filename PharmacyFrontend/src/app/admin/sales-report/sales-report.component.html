@@ -1,0 +1,155 @@
+<div class="bg-white rounded-xl shadow-lg p-6">
+  <div class="flex items-center justify-between mb-6">
+    <h2 class="text-2xl font-bold text-gray-800 flex items-center">
+      <i class="fas fa-chart-line text-blue-600 mr-3"></i>
+      Sales Report
+    </h2>
+  </div>
+
+  <!-- Date Filters -->
+  <div class="bg-gray-50 rounded-lg p-5 mb-6 border border-gray-200">
+    <h3 class="text-lg font-medium text-gray-800 mb-4">Generate Report</h3>
+    
+    <div class="flex flex-wrap gap-4 items-end">
+      <div class="space-y-2">
+        <label class="block text-sm font-medium text-gray-700">Start Date</label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <i class="fas fa-calendar-alt text-gray-400"></i>
+          </div>
+          <input 
+            type="date" 
+            [(ngModel)]="startDate" 
+            class="pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" 
+          />
+        </div>
+      </div>
+      
+      <div class="space-y-2">
+        <label class="block text-sm font-medium text-gray-700">End Date</label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <i class="fas fa-calendar-alt text-gray-400"></i>
+          </div>
+          <input 
+            type="date" 
+            [(ngModel)]="endDate" 
+            class="pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" 
+          />
+        </div>
+      </div>
+      
+      <button 
+        (click)="fetchSalesReport()" 
+        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors flex items-center"
+      >
+        <i class="fas fa-sync-alt mr-2"></i>
+        Generate Report
+      </button>
+    </div>
+  </div>
+
+  <!-- Report Content -->
+  <div *ngIf="reportGenerated" class="space-y-6">
+    <!-- Summary Card -->
+    <div class="bg-gradient-to-r from-blue-600 to-green-500 rounded-lg p-5 text-white shadow-md">
+      <div class="flex items-center justify-between">
+        <div>
+          <h3 class="text-lg font-medium mb-1">Total Sales</h3>
+          <p class="text-3xl font-bold">₹{{ totalSales }}</p>
+        </div>
+        
+        <div class="flex space-x-2">
+          <button 
+            (click)="downloadCSV()" 
+            class="bg-white text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-lg transition-colors flex items-center"
+          >
+            <i class="fas fa-file-csv mr-2"></i>
+            CSV
+          </button>
+          
+          <button 
+            (click)="downloadPDF()" 
+            class="bg-white text-red-600 hover:bg-blue-50 px-3 py-2 rounded-lg transition-colors flex items-center"
+          >
+            <i class="fas fa-file-pdf mr-2"></i>
+            PDF
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Orders List -->
+    <div *ngFor="let order of salesData" class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden mb-6">
+      <!-- Order Header -->
+      <div class="bg-gradient-to-r from-blue-50 to-green-50 p-4 border-b border-gray-200">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div>
+            <p class="text-sm text-gray-500">Order Information</p>
+            <p class="font-medium">Order #{{ order.orderId }}</p>
+            <p class="text-sm text-gray-600">
+              <i class="far fa-calendar-alt mr-1"></i>
+              {{ order.orderDate | date:'short' }}
+            </p>
+          </div>
+          
+          <div>
+            <p class="text-sm text-gray-500">Doctor Information</p>
+            <p class="font-medium">{{ order.doctorName }}</p>
+            <p class="text-sm text-gray-600">
+              <i class="far fa-envelope mr-1"></i>
+              {{ order.doctorEmail }}
+            </p>
+            <p class="text-sm text-gray-600">
+              <i class="fas fa-phone-alt mr-1"></i>
+              {{ order.doctorContact }}
+            </p>
+          </div>
+        </div>
+        
+        <div class="mt-3 pt-3 border-t border-gray-200 flex justify-between items-center">
+          <p class="text-sm text-gray-600">Total Items: {{ order.items.length }}</p>
+          <p class="font-bold text-lg text-blue-600">₹{{ order.totalOrderAmount }}</p>
+        </div>
+      </div>
+
+      <!-- Order Items Table -->
+      <div class="p-4 overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Medication
+              </th>
+              <th scope="col" class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Quantity
+              </th>
+              <th scope="col" class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Price/Unit
+              </th>
+              <th scope="col" class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Total
+              </th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <tr *ngFor="let item of order.items" class="hover:bg-gray-50">
+              <td class="px-4 py-3 whitespace-nowrap">
+                <div class="font-medium text-gray-900">{{ item.drugName }}</div>
+              </td>
+              <td class="px-4 py-3 whitespace-nowrap text-right text-gray-500">
+                {{ item.quantity }}
+              </td>
+              <td class="px-4 py-3 whitespace-nowrap text-right text-gray-500">
+                ₹{{ item.pricePerUnit }}
+              </td>
+              <td class="px-4 py-3 whitespace-nowrap text-right font-medium text-blue-600">
+                ₹{{ item.itemTotalPrice }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

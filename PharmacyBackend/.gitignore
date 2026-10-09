@@ -1,0 +1,92 @@
+# .NET Core 
+bin/
+obj/
+**/bin/
+**/obj/
+
+# User-specific files
+.vscode/
+.idea/
+
+# ASP.NET Core
+wwwroot/
+
+# NUGET
+*.nupkg
+*.snupkg
+packages/
+.nuget/
+
+# Build Results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Dd]Release/
+[Dd]ebug/ci/
+[Dd]Release/ci/
+
+# Tye files
+.tye/
+
+# User secrets
+secrets.json
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Windows Installer files for x64 and x86
+x64/
+x86/
+
+# ASP.NET Core settings and env variables
+appsettings.Development.json
+appsettings.*.json
+
+# Dotnet coverage files
+coverage/
+
+# Windows installer output
+InstallShield/
+
+# JetBrains Rider IDE
+.idea/
+
+# User specific files
+*.user
+*.userosscache
+*.suo
+*.userprefs
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Npm/Yarn dependencies
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Logs
+*.log
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# SQLite database files
+*.db
+*.sqlite
+
+# JetBrains Rider
+.idea/
+
+# Windows Installer files for x64 and x86
+x64/
+x86/

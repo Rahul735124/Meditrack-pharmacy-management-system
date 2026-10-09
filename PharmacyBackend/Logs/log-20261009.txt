@@ -1,0 +1,7 @@
+2026-10-09 09:52:52.986 +05:30 [INF] User profile is available. Using 'C:\Users\91735\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-10-09 09:52:53.061 +05:30 [INF] Creating key {fe1f0381-4103-46e1-a868-712da2e40b99} with creation date 2026-10-09 04:22:53Z, activation date 2026-10-09 04:22:53Z, and expiration date 2027-01-07 04:22:53Z.
+2026-10-09 09:52:53.137 +05:30 [INF] Writing data to file 'C:\Users\91735\AppData\Local\ASP.NET\DataProtection-Keys\key-fe1f0381-4103-46e1-a868-712da2e40b99.xml'.
+2026-10-09 09:52:53.454 +05:30 [INF] Now listening on: http://localhost:5118
+2026-10-09 09:52:53.457 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-10-09 09:52:53.457 +05:30 [INF] Hosting environment: Development
+2026-10-09 09:52:53.457 +05:30 [INF] Content root path: C:\Users\91735\Desktop\meditrack-PMS\PharmacyBackend

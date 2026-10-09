@@ -1,0 +1,168 @@
+<!-- doctor-profile.component.html -->
+<div class="min-h-screen bg-gradient-to-b from-blue-50 to-white py-8 px-4">
+  <!-- Back Button -->
+  <div class="max-w-2xl mx-auto mb-6 flex justify-end">
+    <button 
+      (click)="navigateToDashboard()" 
+      class="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm hover:shadow-md transition-all text-gray-600 hover:text-blue-600 border border-gray-200"
+      title="Return to Dashboard"
+    >
+      <i class="fas fa-arrow-left"></i>
+    </button>
+  </div>
+
+  <!-- Profile Card -->
+  <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 transform hover:shadow-lg">
+    <!-- Card Header -->
+    <div class="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4 text-white">
+      <h1 class="text-xl font-bold">Doctor Profile</h1>
+      <p class="text-blue-100 text-sm">Manage your personal information</p>
+    </div>
+
+    <!-- Profile Content -->
+    <div class="p-6">
+      <!-- View Mode -->
+      <div *ngIf="!isEditing" class="flex flex-col md:flex-row gap-6 items-center md:items-start">
+        <!-- Profile Avatar -->
+        <div class="w-32 h-32 rounded-full bg-blue-100 flex items-center justify-center border-4 border-white shadow-md">
+          <i class="fas fa-user-md text-blue-500 text-4xl"></i>
+        </div>
+        
+        <!-- Profile Details -->
+        <div class="flex-1 text-center md:text-left">
+          <h2 class="text-2xl font-bold text-gray-800 mb-2">{{ doctorProfile.fullName }}</h2>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+            <div class="bg-gray-50 p-3 rounded-lg">
+              <p class="text-sm text-gray-500">Contact Number</p>
+              <p class="font-medium text-gray-800 flex items-center justify-center md:justify-start">
+                <i class="fas fa-phone-alt text-blue-500 mr-2"></i>
+                {{ doctorProfile.contact }}
+              </p>
+            </div>
+            
+            <div class="bg-gray-50 p-3 rounded-lg">
+              <p class="text-sm text-gray-500">Email Address</p>
+              <p class="font-medium text-gray-800 flex items-center justify-center md:justify-start">
+                <i class="fas fa-envelope text-blue-500 mr-2"></i>
+                {{ doctorProfile.email }}
+              </p>
+            </div>
+          </div>
+          
+          <button 
+            (click)="toggleEdit()" 
+            class="mt-6 bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center mx-auto md:mx-0"
+          >
+            <i class="fas fa-edit mr-2"></i>
+            Update Profile
+          </button>
+        </div>
+      </div>
+
+      <!-- Edit Mode -->
+      <form *ngIf="isEditing" [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="animate-fadeIn">
+        <div class="mb-5">
+          <label class="block font-medium text-gray-700 mb-2">Full Name</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <i class="fas fa-user text-gray-400"></i>
+            </div>
+            <input 
+              type="text" 
+              class="w-full border border-gray-300 rounded-lg px-10 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" 
+              formControlName="fullName"
+              placeholder="Enter your full name"
+            />
+          </div>
+          <div *ngIf="profileForm.get('fullName')?.invalid && profileForm.get('fullName')?.touched" class="text-red-500 text-sm mt-1">
+            Full name is required
+          </div>
+        </div>
+
+        <div class="mb-5">
+          <label class="block font-medium text-gray-700 mb-2">Contact Number</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <i class="fas fa-phone-alt text-gray-400"></i>
+            </div>
+            <input 
+              type="text" 
+              class="w-full border border-gray-300 rounded-lg px-10 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" 
+              formControlName="contact"
+              placeholder="Enter your contact number"
+            />
+          </div>
+          <div *ngIf="profileForm.get('contact')?.invalid && profileForm.get('contact')?.touched" class="text-red-500 text-sm mt-1">
+            Contact number is required
+          </div>
+        </div>
+
+        <div class="mb-5">
+          <label class="block font-medium text-gray-700 mb-2">Email Address</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <i class="fas fa-envelope text-gray-400"></i>
+            </div>
+            <input 
+              type="email" 
+              class="w-full border border-gray-300 rounded-lg px-10 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" 
+              formControlName="email"
+              placeholder="Enter your email address"
+            />
+          </div>
+          <div *ngIf="profileForm.get('email')?.invalid && profileForm.get('email')?.touched" class="text-red-500 text-sm mt-1">
+            <span *ngIf="profileForm.get('email')?.errors?.['required']">Email is required</span>
+            <span *ngIf="profileForm.get('email')?.errors?.['email']">Please enter a valid email</span>
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-3 mt-6">
+          <button 
+            type="submit" 
+            class="flex-1 bg-green-600 text-white px-4 py-3 rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center"
+            [disabled]="profileForm.invalid"
+            [ngClass]="{'opacity-50 cursor-not-allowed': profileForm.invalid}"
+          >
+            <i class="fas fa-save mr-2"></i>
+            Save Changes
+          </button>
+
+          <button 
+            type="button" 
+            (click)="toggleEdit()"
+            class="flex-1 bg-gray-100 text-gray-700 px-4 py-3 rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-center border border-gray-300"
+          >
+            <i class="fas fa-times mr-2"></i>
+            Cancel
+          </button>
+        </div>
+      </form>
+
+      <!-- Notification Messages -->
+      <div class="mt-6">
+        <div *ngIf="successMessage" class="bg-green-50 border-l-4 border-green-500 p-4 rounded-md animate-fadeIn">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <i class="fas fa-check-circle text-green-500"></i>
+            </div>
+            <div class="ml-3">
+              <p class="text-sm text-green-700">{{ successMessage }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="errorMessage" class="bg-red-50 border-l-4 border-red-500 p-4 rounded-md animate-fadeIn">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <i class="fas fa-exclamation-circle text-red-500"></i>
+            </div>
+            <div class="ml-3">
+              <p class="text-sm text-red-700">{{ errorMessage }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

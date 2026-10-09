@@ -1,0 +1,78 @@
+<div class="bg-white rounded-xl shadow-lg p-6">
+  <div class="flex items-center justify-between mb-6">
+    <h2 class="text-2xl font-bold text-gray-800 flex items-center">
+      <i class="fas fa-check-circle text-green-600 mr-3"></i>
+      Verified Orders
+    </h2>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="verifiedOrders.length === 0" class="bg-gray-50 rounded-lg p-8 text-center">
+    <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-50 mb-4">
+      <i class="fas fa-clipboard-check text-green-500 text-2xl"></i>
+    </div>
+    <h3 class="text-lg font-medium text-gray-900 mb-1">No verified orders</h3>
+    <p class="text-gray-500">There are no verified orders waiting for pickup</p>
+  </div>
+
+  <!-- Orders Grid -->
+  <div *ngIf="verifiedOrders.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div *ngFor="let order of verifiedOrders" class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden transition-all hover:shadow-md">
+      <!-- Order Header -->
+      <div class="bg-gradient-to-r from-green-50 to-blue-50 p-4 border-b border-gray-200">
+        <div class="flex justify-between items-center">
+          <div>
+            <span class="text-lg font-bold text-gray-800">Order #{{ order.orderId }}</span>
+            <span 
+              class="ml-2 px-2 py-0.5 text-xs font-medium rounded-full"
+              [ngClass]="order.isPickedUp ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'"
+            >
+              {{ order.isPickedUp ? 'Picked Up' : 'Ready for Pickup' }}
+            </span>
+          </div>
+        </div>
+        <p class="text-sm text-gray-600 mt-1">
+          <i class="far fa-calendar-alt mr-1"></i>
+          {{ order.orderDate | date: 'short' }}
+        </p>
+      </div>
+
+      <!-- Order Items -->
+      <div class="p-4">
+        <h4 class="font-semibold text-gray-700 mb-2 flex items-center">
+          <i class="fas fa-pills text-blue-500 mr-2"></i>
+          Order Items
+        </h4>
+        
+        <ul class="space-y-2 mb-4">
+          <li *ngFor="let item of order.orderItems" class="flex justify-between items-center p-2 bg-gray-50 rounded-lg">
+            <span class="font-medium text-gray-800">{{ item.drugName }}</span>
+            <span class="text-sm bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">
+              Qty: {{ item.quantity }}
+            </span>
+          </li>
+        </ul>
+
+        <!-- Action Button -->
+        <div class="mt-4 pt-3 border-t border-gray-100">
+          <button
+            *ngIf="!order.isPickedUp"
+            (click)="pickUpOrder(order.orderId)"
+            class="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg transition-colors flex items-center justify-center"
+          >
+            <i class="fas fa-check-circle mr-2"></i>
+            Mark as Picked Up
+          </button>
+          
+          <div
+            *ngIf="order.isPickedUp"
+            class="w-full bg-gray-100 text-green-700 py-2 px-4 rounded-lg flex items-center justify-center"
+          >
+            <i class="fas fa-check-circle mr-2"></i>
+            Picked Up
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

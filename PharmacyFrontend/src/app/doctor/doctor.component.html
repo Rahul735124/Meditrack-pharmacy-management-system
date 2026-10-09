@@ -1,0 +1,11 @@
+<div class="flex flex-col h-screen">
+  <app-navbar [role]="'Doctor'" (searchEvent)="handleSearch($event)" class="shadow-md px-6 py-4 bg-white"></app-navbar>
+
+  <ng-container *ngIf="isDashboardRoute(); else showOtherRoutes">
+    <app-doctor-dashboard [searchQuery]="searchQuery"></app-doctor-dashboard>
+  </ng-container>
+
+  <ng-template #showOtherRoutes>
+    <router-outlet></router-outlet>
+  </ng-template>
+</div>

@@ -1,0 +1,112 @@
+<div class="bg-white rounded-xl shadow-lg p-6">
+  <div class="flex items-center justify-between mb-6">
+    <h2 class="text-2xl font-bold text-gray-800 flex items-center">
+      <i class="fas fa-clipboard-list text-blue-600 mr-3"></i>
+      New Orders
+    </h2>
+    
+    <div class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">
+      <span *ngIf="orders.length > 0">{{ orders.length }} pending</span>
+      <span *ngIf="orders.length === 0">No pending orders</span>
+    </div>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="error" class="bg-red-50 border-l-4 border-red-500 p-4 rounded-md mb-6 flex items-start">
+    <i class="fas fa-exclamation-circle text-red-500 mt-0.5 mr-3"></i>
+    <span class="text-red-700">{{ error }}</span>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="flex justify-center items-center py-12">
+    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading && orders.length === 0" class="bg-gray-50 rounded-lg p-8 text-center">
+    <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-50 mb-4">
+      <i class="fas fa-inbox text-blue-500 text-2xl"></i>
+    </div>
+    <h3 class="text-lg font-medium text-gray-900 mb-1">No new orders</h3>
+    <p class="text-gray-500">All orders have been processed</p>
+  </div>
+
+  <!-- Orders List -->
+  <div *ngIf="!loading && orders.length > 0" class="space-y-6">
+    <div *ngFor="let order of orders" class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden transition-all hover:shadow-md">
+      <!-- Order Header -->
+      <div class="bg-gradient-to-r from-blue-50 to-green-50 p-4 border-b border-gray-200">
+        <div class="flex flex-wrap justify-between items-center gap-3">
+          <div>
+            <div class="flex items-center">
+              <span class="text-lg font-bold text-gray-800">Order #{{ order.orderId }}</span>
+              <span class="ml-3 bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full font-medium">
+                Pending Approval
+              </span>
+            </div>
+            <p class="text-sm text-gray-600 mt-1">
+              <i class="far fa-calendar-alt mr-1"></i>
+              {{ order.orderDate | date: 'medium' }}
+            </p>
+          </div>
+          
+          <button 
+            (click)="approve(order.orderId)" 
+            class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors flex items-center"
+          >
+            <i class="fas fa-check-circle mr-2"></i>
+            Approve Order
+          </button>
+        </div>
+      </div>
+
+      <!-- Order Items -->
+      <div class="p-4">
+        <h4 class="font-semibold text-gray-700 mb-3 flex items-center">
+          <i class="fas fa-pills text-blue-500 mr-2"></i>
+          Order Items
+        </h4>
+        
+        <div class="space-y-3">
+          <div *ngFor="let item of order.orderItems" 
+               class="p-3 rounded-lg border transition-all"
+               [ngClass]="item.isInStock ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'">
+            <div class="flex flex-wrap justify-between items-center gap-3">
+              <div>
+                <p class="font-medium text-gray-800">{{ item.drugName }}</p>
+                <div class="flex items-center mt-1">
+                  <span class="text-sm text-gray-600 mr-3">
+                    <i class="fas fa-cubes mr-1"></i>
+                    Quantity: {{ item.quantity }}
+                  </span>
+                  <span 
+                    [ngClass]="item.isInStock ? 'text-green-600 bg-green-100' : 'text-red-600 bg-red-100'"
+                    class="text-xs px-2 py-0.5 rounded-full font-medium"
+                  >
+                    {{ item.isInStock ? 'In Stock' : 'Out of Stock' }}
+                  </span>
+                </div>
+              </div>
+
+              <div>
+                <button
+                  *ngIf="!item.isInStock && !item.isRequestedFromSupplier"
+                  (click)="requestFromSupplier(item.orderItemId, order.orderId)"
+                  class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-2 rounded-lg transition-colors flex items-center"
+                >
+                  <i class="fas fa-truck mr-2"></i>
+                  Request from Supplier
+                </button>
+
+                <span *ngIf="item.isRequestedFromSupplier" class="flex items-center text-blue-600 bg-blue-50 px-3 py-2 rounded-lg">
+                  <i class="fas fa-paper-plane mr-2"></i>
+                  Request Sent
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
