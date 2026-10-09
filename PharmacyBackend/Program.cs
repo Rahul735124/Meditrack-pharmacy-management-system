@@ -149,6 +149,7 @@ if (app.Environment.IsDevelopment())
 }
 app.UseExceptionHandler("/error");
 
+app.UseRouting();
 app.UseCors("AllowAngularApp");
 app.UseHttpsRedirection();
 app.UseAuthentication();
